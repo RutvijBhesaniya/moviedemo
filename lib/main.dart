@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviedemo/view/screens/detail_screen.dart';
 import 'package:moviedemo/view/screens/home_screen.dart';
 
 void main() {

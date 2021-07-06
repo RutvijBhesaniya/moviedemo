@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class TextStyles {
   static TextStyle? largeHeadline = TextStyle(fontSize: 25);
+  static TextStyle? smallHeadline = TextStyle(fontSize: 22);
   static TextStyle? labelName = TextStyle(fontSize: 20);
+  static TextStyle? subtitle = TextStyle(fontSize: 9);
 
 // static TextStyle sublargeHeadline = TextStyle(
 //   fontSize: FontSize.s27,
@@ -57,6 +59,7 @@ class ColorStyles {
   static const  light_grey = Color(0xFFEEEEEE);
   static const grey = Colors.grey;
   static const black = Colors.black;
+  static const white = Colors.white;
 
 
 
