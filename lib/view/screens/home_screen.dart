@@ -1,45 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:moviedemo/model/apis/api_response.dart';
+import 'package:moviedemo/model/movie.dart';
 import 'package:moviedemo/utils/style.dart';
+import 'package:moviedemo/view_model/movie_view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Movie>? movieList;
 
   int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    ApiResponse apiResponse = Provider.of<MovieViewModel>(context).response;
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-            child: Column(
-              children: [
-                appBar(),
-                SizedBox(
-                  height: 20,
-                ),
-                searchBar(),
-                SizedBox(
-                  height: 20,
-                ),
-                categories(),
-                SizedBox(
-                  height: 28,
-                ),
-                newMovies()
-              ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+              child: Column(
+                children: [
+                  appBar(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  searchBar(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  categories(apiResponse),
+                  SizedBox(
+                    height: 28,
+                  ),
+                  newMovies(apiResponse)
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: bottomNavigationBar()
-    );
+        bottomNavigationBar: bottomNavigationBar());
   }
 
   Widget appBar() {
@@ -109,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget categories() {
+  Widget categories(ApiResponse apiResponse) {
     return Column(
       children: [
         categoryHeading(),
@@ -119,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: tempList().length,
+            itemCount: movieList!.length,
             itemBuilder: (context, index) {
               return categoryBody();
             },
@@ -164,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new AssetImage(
-                  'assets/images/smiley.png',
+                  movieList![0].items!.first.image!,
+                  // 'assets/images/smiley.png',
                 ),
               ),
             ),
@@ -178,26 +187,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget newMovies() {
-    return Column(
-      children: [
-        newMoviesHeading(),
-        Container(
-          height: 300,
-          width: double.infinity,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: tempList().length,
-            itemBuilder: (context, index) {
-              return newMoviesBody();
-            },
-          ),
-        )
+  Widget newMovies(ApiResponse apiResponse) {
+    List<Movie>? movies = apiResponse.data as List<Movie>;
+    switch (apiResponse.status) {
+      case Status.LOADING:
+        return Center(child: CircularProgressIndicator());
+      case Status.COMPLETED:
+        return Column(
+          children: [
+            newMoviesHeading(),
+            Container(
+              height: 300,
+              width: double.infinity,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: movieList!.length,
+                itemBuilder: (context, index) {
+                  return newMoviesBody();
+                },
+              ),
+            )
 
-        // newMoviesBody(),
-      ],
-    );
+            // newMoviesBody(),
+          ],
+        );
+      case Status.ERROR:
+        return Center(
+          child: Text('Please try again latter!!!'),
+        );
+      case Status.INITIAL:
+      default:
+        return Center(
+          child: Text('error'),
+        );
+    }
   }
 
   Widget newMoviesHeading() {
@@ -259,25 +283,37 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget bottomNavigationBar(){
+  Widget bottomNavigationBar() {
     return BottomNavigationBar(
-       currentIndex: _currentIndex,
+      currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home,color: ColorStyles.grey,),
+          icon: Icon(
+            Icons.home,
+            color: ColorStyles.grey,
+          ),
           title: Text(''),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.perm_media_sharp,color: ColorStyles.grey,),
+          icon: Icon(
+            Icons.perm_media_sharp,
+            color: ColorStyles.grey,
+          ),
           title: Text(''),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_outline_rounded,color: ColorStyles.grey,),
+          icon: Icon(
+            Icons.favorite_outline_rounded,
+            color: ColorStyles.grey,
+          ),
           title: Text(''),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle_sharp,color: ColorStyles.grey,),
+          icon: Icon(
+            Icons.account_circle_sharp,
+            color: ColorStyles.grey,
+          ),
           title: Text(''),
         ),
       ],
