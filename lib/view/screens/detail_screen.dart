@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moviedemo/model/movie.dart';
 import 'package:moviedemo/utils/style.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({Key? key}) : super(key: key);
+  DetailScreen({Key? key,required this.movies,required this.index}) : super(key: key);
+  Movie movies;
+  int index;
 
   @override
-  _DetailScreenState createState() => _DetailScreenState();
+  _DetailScreenState createState() => _DetailScreenState(this.movies,this.index);
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  Movie movies;
+  int index;
+  _DetailScreenState(this.movies,this.index);
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -28,9 +35,14 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
-                            Icons.arrow_back_ios,
-                            color: ColorStyles.white,
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: ColorStyles.white,
+                            ),
                           ),
                           Icon(
                             Icons.favorite_outline_rounded,
@@ -43,7 +55,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
                       image: new AssetImage(
-                        'assets/images/imagetop.jpeg',
+                        movies.items![index].image!
+                        // 'assets/images/imagetop.jpeg',
                       ),
                       fit: BoxFit.fill,
                     ),
