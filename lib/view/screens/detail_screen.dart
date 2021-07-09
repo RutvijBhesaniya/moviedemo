@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/movie.dart';
 import 'package:moviedemo/utils/style.dart';
 
 class DetailScreen extends StatefulWidget {
-  DetailScreen({Key? key,required this.movies,required this.index}) : super(key: key);
+  DetailScreen({Key? key, required this.movies, required this.index})
+      : super(key: key);
   Movie movies;
   int index;
 
   @override
-  _DetailScreenState createState() => _DetailScreenState(this.movies,this.index);
+  _DetailScreenState createState() =>
+      _DetailScreenState(this.movies, this.index);
 }
 
 class _DetailScreenState extends State<DetailScreen> {
   Movie movies;
   int index;
-  _DetailScreenState(this.movies,this.index);
+
+  _DetailScreenState(this.movies, this.index);
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -36,7 +39,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Navigator.pop(context);
                             },
                             child: Icon(
@@ -54,10 +57,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
-                      image: new AssetImage(
-                        movies.items![index].image!
-                        // 'assets/images/imagetop.jpeg',
-                      ),
+                      image: new NetworkImage(movies.items![index].image!
+                          ),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -87,13 +88,19 @@ class _DetailScreenState extends State<DetailScreen> {
                   left: 50,
                   child: Container(
                     height: 290,
-                    color: Colors.red,
+                    decoration: new BoxDecoration(
+                      image: new DecorationImage(
+                          image: new NetworkImage(
+                            movies.items![index].image!,
+                          ),
+                          fit: BoxFit.fill),
+                    ),
                   ),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 15, 0),
+            Container(
+              margin: EdgeInsets.fromLTRB(20, 10, 15, 0),
               child: bottomScreen(),
             ),
           ],
@@ -108,19 +115,14 @@ class _DetailScreenState extends State<DetailScreen> {
       children: [
         Row(
           children: [
-            Text(
-              'Mulan',
-              style: TextStyles.largeHeadline!.copyWith(
-                fontWeight: FontWeight.bold,
+            Flexible(
+              child: Text(
+                movies.items![index].fullTitle!,
+                style: TextStyles.largeHeadline!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              '(2020)',
-              style: TextStyles.largeHeadline!.copyWith(
-                  fontWeight: FontWeight.bold, color: ColorStyles.grey),
             ),
           ],
         ),
@@ -130,7 +132,8 @@ class _DetailScreenState extends State<DetailScreen> {
         Row(
           children: [
             Text(
-              'Adventure Fantasy',
+              movies.items![index].title!,
+              overflow: TextOverflow.ellipsis,
               style: TextStyles.labelName!.copyWith(
                 color: ColorStyles.grey,
               ),
@@ -156,7 +159,7 @@ class _DetailScreenState extends State<DetailScreen> {
               width: 20,
             ),
             Text(
-              '7.8',
+              movies.items![index].imDbRating!,
               style: TextStyles.labelName!.copyWith(
                 color: ColorStyles.grey,
               ),

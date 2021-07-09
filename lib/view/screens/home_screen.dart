@@ -345,19 +345,3 @@ Widget newMoviesDetails(Movie movies, int index, BuildContext context) {
 //   );
 // }
 
-List<String> tempList() => [
-      "test",
-      "test",
-      "test",
-      'test',
-      'test',
-      "test",
-      'test',
-      'test',
-      "test",
-      'test',
-      'test',
-      "test",
-      'test',
-      'test'
-    ];
