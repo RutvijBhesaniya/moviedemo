@@ -34,7 +34,11 @@ class _DetailScreenState extends State<DetailScreen> {
                     alignment: Alignment.topCenter,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
+                        vertical: 20,
+                        horizontal: 25,
+                      ),
+
+                      //This is for appBar Icons
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -57,8 +61,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
-                      image: new NetworkImage(movies.items![index].image!
-                          ),
+                      image: new NetworkImage(
+                        movies.items![index].image!,
+                      ),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -71,17 +76,19 @@ class _DetailScreenState extends State<DetailScreen> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              topRight: Radius.circular(40),
-                            ),
-                            color: Colors.white),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40),
+                          ),
+                          color: Colors.white,
+                        ),
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                       ),
                     ],
                   ),
                 ),
+                //This is Container used as Stack to set the Image in between
                 Positioned(
                   top: screenHeight * (3 / 9) - 240 / 2,
                   width: 150,
@@ -90,10 +97,11 @@ class _DetailScreenState extends State<DetailScreen> {
                     height: 290,
                     decoration: new BoxDecoration(
                       image: new DecorationImage(
-                          image: new NetworkImage(
-                            movies.items![index].image!,
-                          ),
-                          fit: BoxFit.fill),
+                        image: new NetworkImage(
+                          movies.items![index].image!,
+                        ),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
@@ -109,6 +117,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  //This is for BottomScreen
   Widget bottomScreen() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +163,9 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         Row(
           children: [
-            Icon(Icons.star),
+            Icon(
+              Icons.star,
+            ),
             SizedBox(
               width: 20,
             ),
@@ -180,6 +191,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  //This is for BottomDetails
   Widget overviewDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +208,9 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         Text(
           'Wikipedia is a free, open content online encyclopedia created through the collaborative effort of a community of users known as Wikipedians. Anyone registered on the site can create an article for publication; registration is not required to edit articles.',
-          style: TextStyles.labelName!.copyWith(color: ColorStyles.grey),
+          style: TextStyles.labelName!.copyWith(
+            color: ColorStyles.grey,
+          ),
           maxLines: 4,
           overflow: TextOverflow.ellipsis,
         )
@@ -204,6 +218,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  //Recommended
   Widget recommended() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,6 +249,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  //Recommended Details
   Widget recommendedDetails() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),

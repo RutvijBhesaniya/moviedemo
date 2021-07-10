@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/movie.dart';
-import 'package:moviedemo/model/networks/fetch_api.dart';
+import 'package:moviedemo/model/movie_repository.dart';
+import 'package:moviedemo/view/screens/favourite_screen.dart';
+import 'package:moviedemo/view/screens/home_screen.dart';
+import 'package:moviedemo/view/screens/media_screen.dart';
+import 'package:moviedemo/view/screens/profile_screen.dart';
 
 // class MovieViewModel extends ChangeNotifier {
 //   ApiResponse _apiResponse = ApiResponse.initial('Empty Data');
@@ -22,30 +27,30 @@ import 'package:moviedemo/model/networks/fetch_api.dart';
 //     notifyListeners();
 //   }
 // }
+
+//Method of Riverpod for fetching data
 final movieStateFuture = FutureProvider<Movie>((ref) async {
   return fetchMovies();
 });
 
-// enum NavigationBarEvent { HOME, PROFIL }
-//
-// class NavigationNotifier extends StateNotifier<PageModel> {
-//   NavigationNotifier() : super(defaultPage);
-//   static const defaultPage = PageModel(NavigationBarEvent.HOME);
-//
-//   void selectPage(int i) {
-//     switch (i) {
-//       case 0:
-//         state = PageModel(NavigationBarEvent.HOME);
-//         break;
-//       case 1:
-//         state = PageModel(NavigationBarEvent.PROFIL);
-//         break;
-//     }
-//   }
-// }
-//
-// class PageModel {
-//   const PageModel(this.page);
-//
-//   final NavigationBarEvent page;
-// }
+
+class BottomNavigationBarModel extends ChangeNotifier {
+  int _currentTab = 0;
+  List<Widget> _screens = [
+    HomeScreen(),
+    MediaScreen(),
+    FavouriteScreen(),
+    ProfileScreen()
+  ];
+
+  set currentTab(int tab) {
+    this._currentTab = tab;
+    notifyListeners();
+  }
+
+  int get currentTab => this._currentTab;
+
+  get currentScreen => this._screens[this._currentTab];
+}
+
+
