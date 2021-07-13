@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moviedemo/view/screens/home_screen.dart';
+import 'package:moviedemo/view/widgets/bottom_navigation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,12 +9,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String name = " ";
-  bool changeButton = false;
-
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController = TextEditingController();
-
+  TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-
                       decoration: InputDecoration(
                         hintText: 'Enter Username',
                         labelText: 'Username',
-
                       ),
-                      controller: _nameController,
+                      controller: nameController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please Enter some value';
@@ -63,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Enter Password',
                         labelText: 'Password',
@@ -82,43 +77,15 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 30,
               ),
-
-              // Material(
-              //   color: Colors.deepPurple,
-              //   borderRadius: BorderRadius.circular(
-              //     changeButton ? 50 : 8,
-              //   ),
-              //   child: InkWell(
-              //     onTap: () => moveToHome(context),
-              //     child: AnimatedContainer(
-              //       duration: Duration(seconds: 1),
-              //       alignment: Alignment.center,
-              //       height: 40,
-              //       width: changeButton ? 50 : 150,
-              //       child: changeButton
-              //           ? Icon(
-              //         Icons.done,
-              //         color: Colors.white,
-              //       )
-              //           : Text(
-              //         'Login',
-              //         style: TextStyle(
-              //           fontWeight: FontWeight.bold,
-              //           fontSize: 18,
-              //           color: Colors.white,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // )
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomeScreen(name:_nameController.text),
-                      ),
+                          builder: (context) =>
+                              // HomeScreen(name: _nameController.text),
+                              BottomNavigationBars(name: nameController.text)),
                     );
                   }
                 },

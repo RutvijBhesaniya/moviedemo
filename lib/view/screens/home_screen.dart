@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
+import 'package:moviedemo/utils/common_widgets.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/screens/detail_screen.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
 
+//ignore: must_be_immutable
 class HomeScreen extends ConsumerWidget {
-
   HomeScreen({this.name});
 
- String? name;
+  String? name;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -54,53 +55,47 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  //appBar
+  ///app bar widget
   Widget appBar() {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Hello  ',
-                    style: TextStyles.largeHeadline!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: ColorStyles.black,
-                    ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CustomHeading('Hello  '),
+                // Text(
+                //   'Hello  ',
+                //   style: TextStyles.largeHeadline!.copyWith(
+                //     fontWeight: FontWeight.bold,
+                //     color: ColorStyles.black,
+                //   ),
+                // ),
+                Text(
+                  '$name',
+                  style: TextStyles.largeHeadline!.copyWith(
+                    color: ColorStyles.grey,
                   ),
-                  Text(
-                    '${name}',
-                    style: TextStyles.largeHeadline!.copyWith(
-                      color: ColorStyles.grey,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                'Let\'s watch today',
-                style: TextStyles.labelName!.copyWith(
-                  color: ColorStyles.grey,
                 ),
-              ),
-            ],
-          ),
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.yellow,
-            // backgroundImage: NetworkImage(
-            //
-            // ),
-          )
-        ],
-      ),
+              ],
+            ),
+            CustomSubTitle('Let\'s watch today'),
+          ],
+        ),
+        CircleAvatar(
+          radius: 30,
+          backgroundColor: Colors.yellow,
+          // backgroundImage: NetworkImage(
+          //
+          // ),
+        )
+      ],
     );
   }
 
-//searchBar
+  ///search bar widget
   Widget searchBar() {
     return TextFormField(
       decoration: InputDecoration(
@@ -123,7 +118,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-//categories
+  ///categories widget
   Widget categories(NewMovies movies) {
     return Column(
       children: [
@@ -144,27 +139,18 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-//categoryHeading
+  ///category heading widget
   Widget categoryHeading() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Categories',
-          style: TextStyles.largeHeadline!
-              .copyWith(color: ColorStyles.black, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          'See all',
-          style: TextStyles.labelName!.copyWith(
-            color: ColorStyles.grey,
-          ),
-        )
+        CustomHeading('Categories'),
+        CustomSubTitle('See All'),
       ],
     );
   }
 
-//categoryDetails
+  ///category details widget
   Widget categoryDetails(NewMovies movies) {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 8, 12, 5),
@@ -196,7 +182,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-//movies
+  ///movies widget
   Widget newMovies(NewMovies movies) {
     return Column(
       children: [
@@ -219,29 +205,18 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-//moviesHeading
+  ///movies heading widget
   Widget newMoviesHeading() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'New Movies',
-          style: TextStyles.largeHeadline!.copyWith(
-            color: ColorStyles.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          'See all',
-          style: TextStyles.labelName!.copyWith(
-            color: ColorStyles.grey,
-          ),
-        )
+        CustomHeading('New Movies'),
+        CustomSubTitle('See All'),
       ],
     );
   }
 
-//movieDetails
+  ///movie details widget
   Widget newMoviesDetails(NewMovies movies, int index, BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -274,37 +249,15 @@ class HomeScreen extends ConsumerWidget {
             SizedBox(
               height: 5,
             ),
-            Text(
-              movies.items![index].title!,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyles.labelName!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              movies.items![index].fullTitle!,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyles.subhead.copyWith(
-                color: ColorStyles.grey,
-              ),
-            ),
+            CustomTitle(movies.items![index].title!),
+            CustomSubTitle(movies.items![index].fullTitle!),
             Row(
               children: [
-                Text(
-                  'Rating :-',
-                  style: TextStyles.subhead.copyWith(
-                    color: ColorStyles.grey,
-                  ),
-                ),
+                Icon(Icons.star,color:ColorStyles.yellow,),
                 SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  movies.items![index].imDbRating!,
-                  style: TextStyles.subhead.copyWith(
-                    color: ColorStyles.black,
-                  ),
-                ),
+                  width: 5,),
+                CustomSubTitle(movies.items![index].imDbRating!),
+
               ],
             )
           ],

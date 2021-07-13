@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
+import 'package:moviedemo/utils/common_widgets.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/widgets/recommended.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
 
+//ignore: must_be_immutable
 class DetailScreen extends ConsumerWidget {
   NewMovies? movies;
   int index;
@@ -20,6 +22,7 @@ class DetailScreen extends ConsumerWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: ColorStyles.white,
       body: recommendedMovies.when(
         loading: () => Center(
           child: CircularProgressIndicator(),
@@ -124,7 +127,7 @@ class DetailScreen extends ConsumerWidget {
     );
   }
 
-  //This is for BottomScreen
+  //bottom screen widget
   Widget bottomScreen(RecommendedMovies recommendedMovies) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,13 +135,16 @@ class DetailScreen extends ConsumerWidget {
         Row(
           children: [
             Flexible(
-              child: Text(
+              child: CustomHeading(
                 movies!.items![index].fullTitle!,
-                style: TextStyles.largeHeadline!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
               ),
+              // child: Text(
+              //    movies!.items![index].fullTitle!,
+              //   style: TextStyles.largeHeadline!.copyWith(
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              //   overflow: TextOverflow.ellipsis,
+              // ),
             ),
           ],
         ),
@@ -147,22 +153,18 @@ class DetailScreen extends ConsumerWidget {
         ),
         Row(
           children: [
-            Text(
-              movies!.items![index].title!,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyles.labelName!.copyWith(
-                color: ColorStyles.grey,
-              ),
-            ),
+            CustomSubTitle(movies!.items![index].title!),
+            // Text(
+            //   movies!.items![index].title!,
+            //   overflow: TextOverflow.ellipsis,
+            //   style: TextStyles.labelName!.copyWith(
+            //     color: ColorStyles.grey,
+            //   ),
+            // ),
             SizedBox(
               width: 20,
             ),
-            Text(
-              '1 hr 55m',
-              style: TextStyles.labelName!.copyWith(
-                color: ColorStyles.grey,
-              ),
-            )
+            CustomSubTitle('1hr 50min'),
           ],
         ),
         SizedBox(
@@ -171,17 +173,12 @@ class DetailScreen extends ConsumerWidget {
         Row(
           children: [
             Icon(
-              Icons.star,
+              Icons.star,color: ColorStyles.yellow,
             ),
             SizedBox(
               width: 20,
             ),
-            Text(
-              movies!.items![index].imDbRating!,
-              style: TextStyles.labelName!.copyWith(
-                color: ColorStyles.grey,
-              ),
-            )
+            CustomSubTitle(movies!.items![index].imDbRating!),
           ],
         ),
         SizedBox(
@@ -198,24 +195,19 @@ class DetailScreen extends ConsumerWidget {
     );
   }
 
-  //This is for BottomDetails
+  //bottom screen detail widget
   Widget overviewDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Overview',
-          style: TextStyles.smallHeadline!.copyWith(
-            color: ColorStyles.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        CustomHeading('Overview'),
         SizedBox(
           height: 10,
         ),
         Text(
           'Wikipedia is a free, open content online encyclopedia created through the collaborative effort of a community of users known as Wikipedians. Anyone registered on the site can create an article for publication; registration is not required to edit articles.',
           style: TextStyles.labelName!.copyWith(
+            fontSize: 15,
             color: ColorStyles.grey,
           ),
           maxLines: 4,
@@ -225,35 +217,20 @@ class DetailScreen extends ConsumerWidget {
     );
   }
 
-  //Recommended
+  //recommended widget
   Widget recommended(RecommendedMovies recommendedMovies) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Recommended',
-          style: TextStyles.smallHeadline!.copyWith(
-            color: ColorStyles.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        CustomHeading('Recommended'),
         SizedBox(
           height: 10,
         ),
         Container(
           height: 300,
-          child: Recommended()
-          // ListView.builder(
-          //   shrinkWrap: true,
-          //   scrollDirection: Axis.horizontal,
-          //   itemCount: recommendedMovies.items!.length,
-          //   itemBuilder: (context, index) {
-          //     return recommendedDetails(recommendedMovies);
-          //   },
-          // ),
+          child: Recommended(),
         ),
       ],
     );
   }
-
 }

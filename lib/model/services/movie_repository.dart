@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:moviedemo/model/apis/base_api.dart';
 import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
 
-//This Api is for New Movies
+///api for new movies
 Future<NewMovies> fetchMovies() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/MostPopularMovies/k_kez41nvt'),
+    Uri.parse(BaseApi.NEW_MOVIES),
   );
 
   if (response.statusCode == 200) {
@@ -19,10 +20,10 @@ Future<NewMovies> fetchMovies() async {
   }
 }
 
-//This Api is for Recommended  Movies
+///api for recommended  movies
 Future<RecommendedMovies> fetchRecommendedMovies() async {
   final response = await http.get(
-    Uri.parse('https://imdb-api.com/en/API/ComingSoon/k_kez41nvt'),
+    Uri.parse(BaseApi.RECOMMENDED_MOVIES),
   );
 
   if (response.statusCode == 200) {
@@ -33,18 +34,3 @@ Future<RecommendedMovies> fetchRecommendedMovies() async {
     throw Exception('Failed to load album');
   }
 }
-
-// class MovieRepository {
-//Fetching data
-// BaseService _movieService = MovieService();
-//
-// Future<List<Movie>> fetchMovieList(String value) async {
-//   dynamic response = await _movieService.getResponse(value);
-//   final jsonData = response['results'] as List;
-//   print(jsonData);
-//   List<Movie> movieList = jsonData
-//       .map((tagJson) => Movie.fromJson(tagJson))
-//       .toList as List<Movie>;
-//   return movieList;
-// }
-// }
