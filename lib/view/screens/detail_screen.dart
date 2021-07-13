@@ -1,124 +1,131 @@
 import 'package:flutter/material.dart';
-import 'package:moviedemo/model/movie.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moviedemo/model/new_movies.dart';
+import 'package:moviedemo/model/recommended_movies.dart';
 import 'package:moviedemo/utils/style.dart';
+import 'package:moviedemo/view/widgets/recommended.dart';
+import 'package:moviedemo/view_model/movie_view_model.dart';
 
-class DetailScreen extends StatefulWidget {
-  DetailScreen({Key? key, required this.movies, required this.index})
-      : super(key: key);
-  Movie movies;
+class DetailScreen extends ConsumerWidget {
+  NewMovies? movies;
   int index;
 
-  @override
-  _DetailScreenState createState() =>
-      _DetailScreenState(this.movies, this.index);
-}
-
-class _DetailScreenState extends State<DetailScreen> {
-  Movie movies;
-  int index;
-
-  _DetailScreenState(this.movies, this.index);
+  DetailScreen(this.movies, this.index);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    AsyncValue<RecommendedMovies> recommendedMovies =
+        watch(recommendedStateFuture);
+
     final screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 25,
-                      ),
 
-                      //This is for appBar Icons
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: ColorStyles.white,
-                            ),
+    return Scaffold(
+      body: recommendedMovies.when(
+        loading: () => Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (err, stack) => Center(
+          child: Text('${err.toString()}'),
+        ),
+        data: (recommendedMovies) {
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal: 25,
                           ),
-                          Icon(
-                            Icons.favorite_outline_rounded,
-                            color: ColorStyles.white,
+
+                          //This is for appBar Icons
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: ColorStyles.white,
+                                ),
+                              ),
+                              Icon(
+                                Icons.favorite_outline_rounded,
+                                color: ColorStyles.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      decoration: new BoxDecoration(
+                        image: new DecorationImage(
+                          image: new NetworkImage(
+                            movies!.items![index].image!,
+                          ),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      height: 330,
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                    Positioned(
+                      top: 300,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(40),
+                              ),
+                              color: Colors.white,
+                            ),
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  decoration: new BoxDecoration(
-                    image: new DecorationImage(
-                      image: new NetworkImage(
-                        movies.items![index].image!,
-                      ),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  height: 330,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Positioned(
-                  top: 300,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40),
+                    //This is Container used as Stack to set the Image in between
+                    Positioned(
+                      top: screenHeight * (3 / 9) - 240 / 2,
+                      width: 150,
+                      left: 50,
+                      child: Container(
+                        height: 290,
+                        decoration: new BoxDecoration(
+                          image: new DecorationImage(
+                            image: new NetworkImage(
+                              movies!.items![index].image!,
+                            ),
+                            fit: BoxFit.fill,
                           ),
-                          color: Colors.white,
                         ),
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                    ],
-                  ),
-                ),
-                //This is Container used as Stack to set the Image in between
-                Positioned(
-                  top: screenHeight * (3 / 9) - 240 / 2,
-                  width: 150,
-                  left: 50,
-                  child: Container(
-                    height: 290,
-                    decoration: new BoxDecoration(
-                      image: new DecorationImage(
-                        image: new NetworkImage(
-                          movies.items![index].image!,
-                        ),
-                        fit: BoxFit.fill,
                       ),
                     ),
-                  ),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 10, 15, 0),
+                  child: bottomScreen(recommendedMovies),
                 ),
               ],
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 10, 15, 0),
-              child: bottomScreen(),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
   //This is for BottomScreen
-  Widget bottomScreen() {
+  Widget bottomScreen(RecommendedMovies recommendedMovies) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,7 +133,7 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             Flexible(
               child: Text(
-                movies.items![index].fullTitle!,
+                movies!.items![index].fullTitle!,
                 style: TextStyles.largeHeadline!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -141,7 +148,7 @@ class _DetailScreenState extends State<DetailScreen> {
         Row(
           children: [
             Text(
-              movies.items![index].title!,
+              movies!.items![index].title!,
               overflow: TextOverflow.ellipsis,
               style: TextStyles.labelName!.copyWith(
                 color: ColorStyles.grey,
@@ -170,7 +177,7 @@ class _DetailScreenState extends State<DetailScreen> {
               width: 20,
             ),
             Text(
-              movies.items![index].imDbRating!,
+              movies!.items![index].imDbRating!,
               style: TextStyles.labelName!.copyWith(
                 color: ColorStyles.grey,
               ),
@@ -186,7 +193,7 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         // recommendedHeading(),
         // SizedBox(height: 10,),
-        recommended()
+        recommended(recommendedMovies)
       ],
     );
   }
@@ -219,7 +226,7 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   //Recommended
-  Widget recommended() {
+  Widget recommended(RecommendedMovies recommendedMovies) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -234,76 +241,19 @@ class _DetailScreenState extends State<DetailScreen> {
           height: 10,
         ),
         Container(
-          width: double.infinity,
           height: 300,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: tempList().length,
-            itemBuilder: (context, index) {
-              return recommendedDetails();
-            },
-          ),
+          child: Recommended()
+          // ListView.builder(
+          //   shrinkWrap: true,
+          //   scrollDirection: Axis.horizontal,
+          //   itemCount: recommendedMovies.items!.length,
+          //   itemBuilder: (context, index) {
+          //     return recommendedDetails(recommendedMovies);
+          //   },
+          // ),
         ),
       ],
     );
   }
 
-  //Recommended Details
-  Widget recommendedDetails() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.black,
-            ),
-            height: 210,
-            width: 160,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            'The Ivory Game',
-            style: TextStyles.labelName!.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            'Documentor',
-            style: TextStyles.subhead.copyWith(
-              color: ColorStyles.grey,
-            ),
-          ),
-          Text(
-            'Rating',
-            style: TextStyles.subhead.copyWith(
-              color: ColorStyles.grey,
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }
-
-List<String> tempList() => [
-      "test",
-      "test",
-      "test",
-      'test',
-      'test',
-      "test",
-      'test',
-      'test',
-      "test",
-      'test',
-      'test',
-      "test",
-      'test',
-      'test'
-    ];

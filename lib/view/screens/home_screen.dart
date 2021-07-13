@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moviedemo/model/movie.dart';
+import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/screens/detail_screen.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
 
 class HomeScreen extends ConsumerWidget {
 
+  HomeScreen({this.name});
+
+ String? name;
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    AsyncValue<Movie> movies = watch(movieStateFuture);
+    AsyncValue<NewMovies> movies = watch(movieStateFuture);
     return Scaffold(
       body: movies.when(
         loading: () => Center(
@@ -36,7 +40,6 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     // Text(movies.items![index].title!),
                     categories(movies),
-                    // categories(movies),
                     SizedBox(
                       height: 28,
                     ),
@@ -63,14 +66,14 @@ class HomeScreen extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    'Hello',
+                    'Hello  ',
                     style: TextStyles.largeHeadline!.copyWith(
                       fontWeight: FontWeight.bold,
                       color: ColorStyles.black,
                     ),
                   ),
                   Text(
-                    ' Rutvij',
+                    '${name}',
                     style: TextStyles.largeHeadline!.copyWith(
                       color: ColorStyles.grey,
                     ),
@@ -121,7 +124,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
 //categories
-  Widget categories(Movie movies) {
+  Widget categories(NewMovies movies) {
     return Column(
       children: [
         categoryHeading(),
@@ -162,7 +165,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
 //categoryDetails
-  Widget categoryDetails(Movie movies) {
+  Widget categoryDetails(NewMovies movies) {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 8, 12, 5),
       decoration: BoxDecoration(
@@ -194,7 +197,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
 //movies
-  Widget newMovies(Movie movies) {
+  Widget newMovies(NewMovies movies) {
     return Column(
       children: [
         newMoviesHeading(),
@@ -239,13 +242,13 @@ class HomeScreen extends ConsumerWidget {
   }
 
 //movieDetails
-  Widget newMoviesDetails(Movie movies, int index, BuildContext context) {
+  Widget newMoviesDetails(NewMovies movies, int index, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailScreen(movies: movies, index: index),
+            builder: (context) => DetailScreen(movies, index),
           ),
         );
       },
@@ -310,51 +313,3 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
-
-// Widget bottomNavigationBar() {
-//   return BottomNavigationBar(
-//     currentIndex: _currentIndex,
-//     type: BottomNavigationBarType.fixed,
-//     items: [
-//       BottomNavigationBarItem(
-//         icon: Icon(
-//           Icons.home,
-//           color: ColorStyles.grey,
-//         ),
-//         title: Text(''),
-//       ),
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//       NavigationBarItem(
-//         icon: Icon(
-//           Icons.perm_media_sharp,
-//           color: ColorStyles.grey,
-//         ),
-//         title: Text(''),
-//       ),
-//       BottomNavigationBarItem(
-//         icon: Icon(
-//           Icons.favorite_outline_rounded,
-//           color: ColorStyles.grey,
-//         ),
-//         title: Text(''),
-//       ),
-//       BottomNavigationBarItem(
-//         icon: Icon(
-//           Icons.account_circle_sharp,
-//           color: ColorStyles.grey,
-//         ),
-//         title: Text(''),
-//       ),
-//     ],
-//   );
-// }

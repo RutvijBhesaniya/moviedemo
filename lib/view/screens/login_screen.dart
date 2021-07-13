@@ -12,14 +12,16 @@ class _LoginScreenState extends State<LoginScreen> {
   String name = " ";
   bool changeButton = false;
 
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: _formkey,
+          key: _formKey,
           child: Column(
             children: [
               Image.asset(
@@ -45,19 +47,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     TextFormField(
+
                       decoration: InputDecoration(
                         hintText: 'Enter Username',
                         labelText: 'Username',
+
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          name = value;
-                        });
-                      },
+                      controller: _nameController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please Enter some value';
                         }
+
                         return null;
                       },
                     ),
@@ -81,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 30,
               ),
+
               // Material(
               //   color: Colors.deepPurple,
               //   borderRadius: BorderRadius.circular(
@@ -111,12 +113,14 @@ class _LoginScreenState extends State<LoginScreen> {
               // )
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(name:_nameController.text),
+                      ),
+                    );
+                  }
                 },
                 child: Text('Login'),
                 style: TextButton.styleFrom(minimumSize: Size(150, 40)),

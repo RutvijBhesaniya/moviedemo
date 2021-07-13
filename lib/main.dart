@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moviedemo/view/screens/home_screen.dart';
+import 'package:moviedemo/view/screens/login_screen.dart';
+import 'package:moviedemo/view/widgets/recommended.dart';
 import 'package:moviedemo/view/widgets/bottom_navigation_bar.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BottomNavigationBars(),
+      home: LoginScreen(),
     );
   }
 }

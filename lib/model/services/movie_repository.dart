@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:moviedemo/model/movie.dart';
+import 'package:moviedemo/model/new_movies.dart';
+import 'package:moviedemo/model/recommended_movies.dart';
 
-//fetchMovies method for reponse of api
-Future<Movie> fetchMovies() async {
+//This Api is for New Movies
+Future<NewMovies> fetchMovies() async {
   final response = await http.get(
     Uri.parse('https://imdb-api.com/en/API/MostPopularMovies/k_kez41nvt'),
   );
@@ -12,7 +13,22 @@ Future<Movie> fetchMovies() async {
   if (response.statusCode == 200) {
     print(response);
 
-    return Movie.fromJson(jsonDecode(response.body));
+    return NewMovies.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
+//This Api is for Recommended  Movies
+Future<RecommendedMovies> fetchRecommendedMovies() async {
+  final response = await http.get(
+    Uri.parse('https://imdb-api.com/en/API/ComingSoon/k_kez41nvt'),
+  );
+
+  if (response.statusCode == 200) {
+    print(response);
+
+    return RecommendedMovies.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load album');
   }

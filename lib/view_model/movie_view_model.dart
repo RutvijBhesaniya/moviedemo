@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moviedemo/model/movie.dart';
-import 'package:moviedemo/model/movie_repository.dart';
+import 'package:moviedemo/model/new_movies.dart';
+import 'package:moviedemo/model/services/movie_repository.dart';
+import 'package:moviedemo/model/recommended_movies.dart';
 import 'package:moviedemo/view/screens/favourite_screen.dart';
 import 'package:moviedemo/view/screens/home_screen.dart';
 import 'package:moviedemo/view/screens/media_screen.dart';
@@ -28,12 +29,21 @@ import 'package:moviedemo/view/screens/profile_screen.dart';
 //   }
 // }
 
-//Method of Riverpod for fetching data
-final movieStateFuture = FutureProvider<Movie>((ref) async {
+
+
+
+//New Movies Api fetching using Riverpod
+final movieStateFuture = FutureProvider<NewMovies>((ref) async {
   return fetchMovies();
 });
 
 
+//Recommended Movies Api fetching using Riverpod
+final recommendedStateFuture = FutureProvider<RecommendedMovies>((ref)async{
+  return fetchRecommendedMovies();
+});
+
+//BottomNavigationBar Notifier
 class BottomNavigationBarModel extends ChangeNotifier {
   int _currentTab = 0;
   List<Widget> _screens = [
