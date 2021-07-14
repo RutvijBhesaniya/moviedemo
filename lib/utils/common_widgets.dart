@@ -2,63 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:moviedemo/utils/style.dart';
 
 //ignore: must_be_immutable
-class CustomHeading extends StatelessWidget {
-  CustomHeading(this.text);
-
-  String? text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        text!,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyles.largeHeadline!.copyWith(
-            fontWeight: FontWeight.bold, color: Theme.of(context).accentColor),
-      ),
-    );
-  }
-}
-
-//ignore: must_be_immutable
-class CustomSubTitle extends StatelessWidget {
-  CustomSubTitle({this.text,this.maxLine});
+class CustomTitle extends StatelessWidget {
+  CustomTitle(
+      {this.text,
+      this.color,
+      this.fontWeight,
+      this.fontSize,
+      this.style,
+      this.maxLine});
 
   String? text;
   var maxLine;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        text!,
-        maxLines: maxLine,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
-      ),
-    );
-  }
-}
-
-//ignore: must_be_immutable
-class CustomTitle extends StatelessWidget {
-  CustomTitle({this.text, this.maxLines = false});
-
-  String? text;
-  var maxLines;
+  var color;
+  var fontWeight;
+  var fontSize;
+  var style;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        text!,
-        maxLines: maxLines,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyles.smallHeadline!.copyWith(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).accentColor,
-        ),
-      ),
+      child: Text(text!,
+          maxLines: maxLine, overflow: TextOverflow.ellipsis, style: style
+          // style: TextStyles.smallHeadline!.copyWith(
+          //   fontWeight: FontWeight.bold,
+          //   color: Theme.of(context).accentColor,
+          // ),
+          ),
     );
   }
 }
@@ -101,6 +71,27 @@ class CustomTextFormField extends StatelessWidget {
           hintText: hintText,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon),
+    );
+  }
+}
+
+//ignore: must_be_immutable
+class CustomImage extends StatelessWidget {
+  String? image;
+  var borderRadius;
+
+  CustomImage({this.image, this.borderRadius});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: new BoxDecoration(
+        image: new DecorationImage(
+          image: new NetworkImage(image!),
+          fit: BoxFit.fill,
+        ),
+        borderRadius: borderRadius,
+      ),
     );
   }
 }

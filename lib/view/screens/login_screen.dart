@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/constant_strings.dart';
+import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/widgets/bottom_navigation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,19 +31,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-
               Padding(
-                padding: const EdgeInsets.only(top: 15,bottom: 20),
-                child: Text(
-                  'Welcome',
-                  style: TextStyle(
-                    color: Theme.of(context).accentColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-
+                  padding: const EdgeInsets.only(top: 15, bottom: 20),
+                  child: CustomTitle(
+                    text: ConstantStrings.welCome,
+                    style: TextStyles.smallHeadline!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  )),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -62,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: ElevatedButton(
@@ -73,11 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 // HomeScreen(name: _nameController.text),
-                                BottomNavigationBars(name: nameController.text)),
+                                BottomNavigationBars(
+                                    name: nameController.text)),
                       );
                     }
                   },
-                  child: Text('Login'),
+                  child: CustomTitle(
+                    text: ConstantStrings.login,
+                    style: TextStyles.smallHeadline!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
                   style: TextButton.styleFrom(minimumSize: Size(150, 40)),
                 ),
               )

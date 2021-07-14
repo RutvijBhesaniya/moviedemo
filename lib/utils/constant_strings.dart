@@ -12,6 +12,8 @@ class ConstantStrings {
   static const favouriteScreen = 'FavouriteScreen';
   static const mediaScreen = 'MediaScreen';
   static const profileScreen = 'Profile Screen';
+  static const welCome = 'Welcome';
+  static const login = 'Login';
   static const wikipedia = 'Wikipedia is a free, open content online encyclopedia created through the collaborative effort of a community of users known as Wikipedians. Anyone registered on the site can create an article for publication; registration is not required to edit articles.';
 
 

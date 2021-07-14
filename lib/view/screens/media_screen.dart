@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviedemo/utils/common_widgets.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
+import 'package:moviedemo/utils/style.dart';
 
 class MediaScreen extends StatefulWidget {
   const MediaScreen({Key? key}) : super(key: key);
@@ -14,7 +15,10 @@ class _MediaScreenState extends State<MediaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CustomHeading(ConstantStrings.mediaScreen)
+        child: CustomTitle(text:ConstantStrings.mediaScreen,style: TextStyles.smallHeadline!.copyWith(
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).accentColor,
+        ),)
       ),
     );
   }

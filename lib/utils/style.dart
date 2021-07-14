@@ -18,3 +18,10 @@ class ColorStyles {
   static const yellow = Colors.yellow;
   static const deep_purple = Color(0xFF311B92);
 }
+
+class FontSize{
+  static const largeTitle = TextStyle(fontSize: 25);
+  static const smallHeadline =TextStyle(fontSize: 20);
+  static const smallTitle =TextStyle(fontSize: 15);
+
+}

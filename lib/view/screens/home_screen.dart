@@ -32,10 +32,10 @@ class HomeScreen extends ConsumerWidget {
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
                 child: Column(
                   children: [
-                    appBar(),
+                    appBar(context),
                     searchBar(),
-                    categories(movies),
-                    newMovies(movies)
+                    categories(movies, context),
+                    newMovies(movies, context)
                   ],
                 ),
               ),
@@ -47,7 +47,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///app bar widget
-  Widget appBar() {
+  Widget appBar(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -56,17 +56,25 @@ class HomeScreen extends ConsumerWidget {
           children: [
             Row(
               children: [
-                CustomHeading(ConstantStrings.hello),
-
+                CustomTitle(
+                  text: ConstantStrings.hello,
+                  style: TextStyles.largeHeadline!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor),
+                ),
                 Text(
-                  '$name',
+                  '  $name',
                   style: TextStyles.largeHeadline!.copyWith(
                     color: ColorStyles.grey,
                   ),
                 ),
               ],
             ),
-            CustomSubTitle(text: ConstantStrings.letsWatchToday,),
+            CustomTitle(
+              text: ConstantStrings.letsWatchToday,
+              style:
+                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+            ),
           ],
         ),
         CircleAvatar(
@@ -99,12 +107,12 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///categories widget
-  Widget categories(NewMovies movies) {
+  Widget categories(NewMovies movies, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 28),
       child: Column(
         children: [
-          categoryHeading(),
+          categoryHeading(context),
           Container(
             height: 80,
             width: double.infinity,
@@ -123,12 +131,20 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///category heading widget
-  Widget categoryHeading() {
+  Widget categoryHeading(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomHeading(ConstantStrings.categories),
-        CustomSubTitle(text: ConstantStrings.seeAll,),
+        CustomTitle(
+          text: ConstantStrings.categories,
+          style: TextStyles.largeHeadline!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).accentColor),
+        ),
+        CustomTitle(
+          text: ConstantStrings.seeAll,
+          style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+        ),
       ],
     );
   }
@@ -150,14 +166,13 @@ class HomeScreen extends ConsumerWidget {
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new AssetImage(
-                  // movies![0].items!.first.image!,
                   'assets/images/smiley.png',
                 ),
               ),
             ),
           ),
           Text(
-          ConstantStrings.comedy,
+            ConstantStrings.comedy,
             style: TextStyles.subtitle!.copyWith(color: ColorStyles.grey),
           )
         ],
@@ -166,10 +181,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///movies widget
-  Widget newMovies(NewMovies movies) {
+  Widget newMovies(NewMovies movies, BuildContext context) {
     return Column(
       children: [
-        newMoviesHeading(),
+        newMoviesHeading(context),
         Container(
           height: 300,
           width: double.infinity,
@@ -189,12 +204,20 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///movies heading widget
-  Widget newMoviesHeading() {
+  Widget newMoviesHeading(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomHeading(ConstantStrings.newMovies),
-        CustomSubTitle(text: ConstantStrings.seeAll,),
+        CustomTitle(
+          text: ConstantStrings.newMovies,
+          style: TextStyles.largeHeadline!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).accentColor),
+        ),
+        CustomTitle(
+          text: ConstantStrings.seeAll,
+          style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+        ),
       ],
     );
   }
@@ -217,14 +240,9 @@ class HomeScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              decoration: new BoxDecoration(
-                // color: Colors.pink
-                image: new DecorationImage(
-                  image: new NetworkImage(
-                    movies.items![index].image!,
-                  ),
-                  fit: BoxFit.fill,
-                ),
+              child: CustomImage(
+                image: movies.items![index].image!,
+                borderRadius: BorderRadius.circular(10),
               ),
               height: 210,
               width: 160,
@@ -232,8 +250,18 @@ class HomeScreen extends ConsumerWidget {
             SizedBox(
               height: 5,
             ),
-            CustomTitle(text: movies.items![index].title!,),
-            CustomSubTitle(text: movies.items![index].fullTitle!,),
+            CustomTitle(
+              text: movies.items![index].title!,
+              style: TextStyles.smallHeadline!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+            CustomTitle(
+              text: movies.items![index].fullTitle!,
+              style:
+                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+            ),
             Row(
               children: [
                 Icon(
@@ -243,7 +271,11 @@ class HomeScreen extends ConsumerWidget {
                 SizedBox(
                   width: 5,
                 ),
-                CustomSubTitle(text: movies.items![index].imDbRating!,),
+                CustomTitle(
+                  text: movies.items![index].imDbRating!,
+                  style: TextStyles.labelName!
+                      .copyWith(color: ColorStyles.dark_grey),
+                ),
               ],
             )
           ],

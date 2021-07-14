@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
 import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
 
 class Recommended extends ConsumerWidget {
@@ -29,7 +30,8 @@ class Recommended extends ConsumerWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: recommendedMovies.items!.length,
                   itemBuilder: (context, index) {
-                    return recommendedDetails(recommendedMovies, index);
+                    return recommendedDetails(
+                        recommendedMovies, index, context);
                   },
                 ),
               ),
@@ -41,7 +43,8 @@ class Recommended extends ConsumerWidget {
   }
 
   ///recommended detail widget
-  Widget recommendedDetails(RecommendedMovies recommendedMovies, int index) {
+  Widget recommendedDetails(
+      RecommendedMovies recommendedMovies, int index, BuildContext context) {
     return Container(
       width: 180,
       margin: const EdgeInsets.fromLTRB(0, 8, 12, 8),
@@ -50,25 +53,28 @@ class Recommended extends ConsumerWidget {
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: new DecorationImage(
-                image: new NetworkImage(
-                  recommendedMovies.items![index].image!,
-                ),
-                fit: BoxFit.fill,
-              ),
-            ),
             height: 210,
             width: 160,
+            child: CustomImage(
+              image: recommendedMovies.items![index].image!,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
           CustomTitle(
             text: recommendedMovies.items![index].fullTitle!,
+            style: TextStyles.smallHeadline!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).accentColor,
+            ),
           ),
-          CustomSubTitle(
+          CustomTitle(
             text: recommendedMovies.items![index].title!,
+            style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
           ),
-          CustomSubTitle(text: recommendedMovies.items![index].directors!,),
+          CustomTitle(
+            text: recommendedMovies.items![index].directors!,
+            style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+          ),
         ],
       ),
     );

@@ -38,47 +38,8 @@ class DetailScreen extends ConsumerWidget {
               children: [
                 Stack(
                   children: [
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 25,
-                          ),
-
-                          //This is for appBar Icons
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColorStyles.white,
-                                ),
-                              ),
-                              Icon(
-                                Icons.favorite_outline_rounded,
-                                color: ColorStyles.white,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      decoration: new BoxDecoration(
-                        image: new DecorationImage(
-                          image: new NetworkImage(
-                            movies!.items![index].image!,
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      height: 330,
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                    ///top screen widget
+                    _topScreen(context),
                     Positioned(
                       top: 300,
                       child: Column(
@@ -97,29 +58,13 @@ class DetailScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    //This is Container used as Stack to set the Image in between
-                    Positioned(
-                      top: screenHeight * (3 / 9) - 230 / 3,
-                      width: 150,
-                      left: 50,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: new DecorationImage(
-                            image: new NetworkImage(
-                              movies!.items![index].image!,
-                            ),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ),
+                    //between screen stack widget
+                    _betweenScreen(screenHeight, context),
                   ],
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 10, 15, 0),
-                  child: bottomScreen(recommendedMovies),
+                  child: bottomScreen(recommendedMovies, context),
                 ),
               ],
             ),
@@ -129,16 +74,81 @@ class DetailScreen extends ConsumerWidget {
     );
   }
 
+  ///between screen stack widget
+  Widget _betweenScreen(double screenHeight, BuildContext context) {
+    return Positioned(
+      top: screenHeight * (3 / 9) - 230 / 3,
+      width: 150,
+      left: 50,
+      child: Container(
+          height: MediaQuery.of(context).size.height / 2,
+          child: CustomImage(
+            image: movies!.items![index].image!,
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
+  }
+
+  ///top screen widget
+  Widget _topScreen(BuildContext context) {
+    return Container(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 25,
+          ),
+
+          //This is for appBar Icons
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: ColorStyles.white,
+                ),
+              ),
+              Icon(
+                Icons.favorite_outline_rounded,
+                color: ColorStyles.white,
+              ),
+            ],
+          ),
+        ),
+      ),
+      decoration: new BoxDecoration(
+        image: new DecorationImage(
+          image: new NetworkImage(
+            movies!.items![index].image!,
+          ),
+          fit: BoxFit.fill,
+        ),
+      ),
+      height: 330,
+      width: MediaQuery.of(context).size.width,
+    );
+  }
+
   //bottom screen widget
-  Widget bottomScreen(RecommendedMovies recommendedMovies) {
+  Widget bottomScreen(
+      RecommendedMovies recommendedMovies, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Flexible(
-              child: CustomHeading(
-                movies!.items![index].fullTitle!,
+              child: CustomTitle(
+                text: movies!.items![index].fullTitle!,
+                style: TextStyles.smallHeadline!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).accentColor,
+                ),
               ),
             ),
           ],
@@ -147,14 +157,18 @@ class DetailScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(top: 10, bottom: 10),
           child: Row(
             children: [
-              CustomSubTitle(
+              CustomTitle(
                 text: movies!.items![index].title!,
+                style: TextStyles.labelName!
+                    .copyWith(color: ColorStyles.dark_grey),
               ),
               SizedBox(
                 width: 20,
               ),
-              CustomSubTitle(
+              CustomTitle(
                 text: ConstantStrings.time,
+                style: TextStyles.labelName!
+                    .copyWith(color: ColorStyles.dark_grey),
               ),
             ],
           ),
@@ -168,30 +182,38 @@ class DetailScreen extends ConsumerWidget {
             SizedBox(
               width: 20,
             ),
-            CustomSubTitle(
+            CustomTitle(
               text: movies!.items![index].imDbRating!,
+              style:
+                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
             ),
           ],
         ),
-        overviewDetails(),
-        recommended(recommendedMovies)
+        overviewDetails(context),
+        recommended(recommendedMovies, context)
       ],
     );
   }
 
   //bottom screen detail widget
-  Widget overviewDetails() {
+  Widget overviewDetails(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomHeading(ConstantStrings.overview),
+          CustomTitle(
+            text: ConstantStrings.overview,
+            style: TextStyles.largeHeadline!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).accentColor),
+          ),
           SizedBox(
             height: 10,
           ),
-          CustomSubTitle(
+          CustomTitle(
             text: ConstantStrings.wikipedia,
+            style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
             maxLine: 4,
           )
         ],
@@ -200,11 +222,17 @@ class DetailScreen extends ConsumerWidget {
   }
 
   //recommended widget
-  Widget recommended(RecommendedMovies recommendedMovies) {
+  Widget recommended(
+      RecommendedMovies recommendedMovies, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomHeading(ConstantStrings.recommended),
+        CustomTitle(
+          text: ConstantStrings.recommended,
+          style: TextStyles.largeHeadline!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).accentColor),
+        ),
         Container(
           margin: EdgeInsets.only(top: 10),
           height: 300,
