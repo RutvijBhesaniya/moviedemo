@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/constant_strings.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('ProfileScreen'),
+        child: CustomHeading(ConstantStrings.profileScreen)
       ),
     );
   }

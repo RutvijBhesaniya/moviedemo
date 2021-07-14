@@ -49,6 +49,7 @@ class Recommended extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: new DecorationImage(
@@ -61,12 +62,13 @@ class Recommended extends ConsumerWidget {
             height: 210,
             width: 160,
           ),
-          SizedBox(
-            height: 5,
+          CustomTitle(
+            text: recommendedMovies.items![index].fullTitle!,
           ),
-          CustomTitle(recommendedMovies.items![index].fullTitle!),
-          CustomSubTitle(recommendedMovies.items![index].title!,),
-          CustomSubTitle(recommendedMovies.items![index].directors!),
+          CustomSubTitle(
+            text: recommendedMovies.items![index].title!,
+          ),
+          CustomSubTitle(text: recommendedMovies.items![index].directors!,),
         ],
       ),
     );

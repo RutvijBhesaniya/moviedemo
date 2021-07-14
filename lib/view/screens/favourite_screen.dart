@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/constant_strings.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Favourite Screen'),
+        child: CustomHeading(ConstantStrings.favouriteScreen)
       ),
     );
   }

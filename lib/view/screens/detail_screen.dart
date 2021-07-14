@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
 import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/widgets/recommended.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
@@ -22,7 +23,7 @@ class DetailScreen extends ConsumerWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: ColorStyles.white,
+      backgroundColor: Theme.of(context).canvasColor,
       body: recommendedMovies.when(
         loading: () => Center(
           child: CircularProgressIndicator(),
@@ -88,7 +89,7 @@ class DetailScreen extends ConsumerWidget {
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40),
                               ),
-                              color: Colors.white,
+                              color: Theme.of(context).canvasColor,
                             ),
                             height: MediaQuery.of(context).size.height,
                             width: MediaQuery.of(context).size.width,
@@ -98,12 +99,13 @@ class DetailScreen extends ConsumerWidget {
                     ),
                     //This is Container used as Stack to set the Image in between
                     Positioned(
-                      top: screenHeight * (3 / 9) - 240 / 2,
+                      top: screenHeight * (3 / 9) - 230 / 3,
                       width: 150,
                       left: 50,
                       child: Container(
-                        height: 290,
+                        height: MediaQuery.of(context).size.height / 2,
                         decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
                           image: new DecorationImage(
                             image: new NetworkImage(
                               movies!.items![index].image!,
@@ -138,58 +140,40 @@ class DetailScreen extends ConsumerWidget {
               child: CustomHeading(
                 movies!.items![index].fullTitle!,
               ),
-              // child: Text(
-              //    movies!.items![index].fullTitle!,
-              //   style: TextStyles.largeHeadline!.copyWith(
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              //   overflow: TextOverflow.ellipsis,
-              // ),
             ),
           ],
         ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            CustomSubTitle(movies!.items![index].title!),
-            // Text(
-            //   movies!.items![index].title!,
-            //   overflow: TextOverflow.ellipsis,
-            //   style: TextStyles.labelName!.copyWith(
-            //     color: ColorStyles.grey,
-            //   ),
-            // ),
-            SizedBox(
-              width: 20,
-            ),
-            CustomSubTitle('1hr 50min'),
-          ],
-        ),
-        SizedBox(
-          height: 10,
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Row(
+            children: [
+              CustomSubTitle(
+                text: movies!.items![index].title!,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              CustomSubTitle(
+                text: ConstantStrings.time,
+              ),
+            ],
+          ),
         ),
         Row(
           children: [
             Icon(
-              Icons.star,color: ColorStyles.yellow,
+              Icons.star,
+              color: ColorStyles.yellow,
             ),
             SizedBox(
               width: 20,
             ),
-            CustomSubTitle(movies!.items![index].imDbRating!),
+            CustomSubTitle(
+              text: movies!.items![index].imDbRating!,
+            ),
           ],
         ),
-        SizedBox(
-          height: 20,
-        ),
         overviewDetails(),
-        SizedBox(
-          height: 20,
-        ),
-        // recommendedHeading(),
-        // SizedBox(height: 10,),
         recommended(recommendedMovies)
       ],
     );
@@ -197,23 +181,21 @@ class DetailScreen extends ConsumerWidget {
 
   //bottom screen detail widget
   Widget overviewDetails() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomHeading('Overview'),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Wikipedia is a free, open content online encyclopedia created through the collaborative effort of a community of users known as Wikipedians. Anyone registered on the site can create an article for publication; registration is not required to edit articles.',
-          style: TextStyles.labelName!.copyWith(
-            fontSize: 15,
-            color: ColorStyles.grey,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomHeading(ConstantStrings.overview),
+          SizedBox(
+            height: 10,
           ),
-          maxLines: 4,
-          overflow: TextOverflow.ellipsis,
-        )
-      ],
+          CustomSubTitle(
+            text: ConstantStrings.wikipedia,
+            maxLine: 4,
+          )
+        ],
+      ),
     );
   }
 
@@ -222,11 +204,9 @@ class DetailScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomHeading('Recommended'),
-        SizedBox(
-          height: 10,
-        ),
+        CustomHeading(ConstantStrings.recommended),
         Container(
+          margin: EdgeInsets.only(top: 10),
           height: 300,
           child: Recommended(),
         ),

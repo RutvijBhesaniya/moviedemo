@@ -29,13 +29,12 @@ class _BottomNavigationBarsState extends State<BottomNavigationBars> {
             selectedItemColor: ColorStyles.red,
             unselectedItemColor: ColorStyles.grey,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.shop), label: 'Media'),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: ' '),
+              BottomNavigationBarItem(icon: Icon(Icons.shop), label: ' '),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_outline_rounded),
-                  label: 'Favourite'),
+                  icon: Icon(Icons.favorite_outline_rounded), label: ' '),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.water_damage_outlined), label: 'Profile')
+                  icon: Icon(Icons.water_damage_outlined), label: ' ')
             ],
             currentIndex: model.currentTab,
             onTap: (int index) {

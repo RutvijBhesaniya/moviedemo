@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviedemo/utils/common_widgets.dart';
 import 'package:moviedemo/view/widgets/bottom_navigation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,87 +16,91 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).canvasColor,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              Image.asset(
-                'assets/images/images.png',
-                fit: BoxFit.cover,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Welcome',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Image.asset(
+                  'assets/images/images.png',
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(top: 15,bottom: 20),
+                child: Text(
+                  'Welcome',
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Enter Username',
-                        labelText: 'Username',
-                      ),
-                      controller: nameController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please Enter some value';
-                        }
-
-                        return null;
-                      },
+                    CustomTextFormField(
+                      hintText: 'Username',
+                      validation: validateUsername,
                     ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Password',
-                        labelText: 'Password',
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: CustomTextFormField(
+                        hintText: 'Password',
+                        obscureText: true,
+                        validation: validatePassword,
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter some value';
-                        } else if (value.length < 8) {
-                          return 'Plesae Enter value above 8';
-                        }
-                        return null;
-                      },
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              // HomeScreen(name: _nameController.text),
-                              BottomNavigationBars(name: nameController.text)),
-                    );
-                  }
-                },
-                child: Text('Login'),
-                style: TextButton.styleFrom(minimumSize: Size(150, 40)),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                // HomeScreen(name: _nameController.text),
+                                BottomNavigationBars(name: nameController.text)),
+                      );
+                    }
+                  },
+                  child: Text('Login'),
+                  style: TextButton.styleFrom(minimumSize: Size(150, 40)),
+                ),
               )
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+///validation of user name
+String? validateUsername(var value) {
+  if (value.isEmpty) {
+    return 'Please Enter Some Value';
+  }
+}
+
+///validation of password
+String? validatePassword(var value) {
+  if (value.isEmpty) {
+    return 'Please enter some value';
+  } else if (value.length < 8) {
+    return 'Please Enter value above 8';
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/screens/detail_screen.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
@@ -32,18 +33,8 @@ class HomeScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     appBar(),
-                    SizedBox(
-                      height: 20,
-                    ),
                     searchBar(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    // Text(movies.items![index].title!),
                     categories(movies),
-                    SizedBox(
-                      height: 28,
-                    ),
                     newMovies(movies)
                   ],
                 ),
@@ -65,14 +56,8 @@ class HomeScreen extends ConsumerWidget {
           children: [
             Row(
               children: [
-                CustomHeading('Hello  '),
-                // Text(
-                //   'Hello  ',
-                //   style: TextStyles.largeHeadline!.copyWith(
-                //     fontWeight: FontWeight.bold,
-                //     color: ColorStyles.black,
-                //   ),
-                // ),
+                CustomHeading(ConstantStrings.hello),
+
                 Text(
                   '$name',
                   style: TextStyles.largeHeadline!.copyWith(
@@ -81,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            CustomSubTitle('Let\'s watch today'),
+            CustomSubTitle(text: ConstantStrings.letsWatchToday,),
           ],
         ),
         CircleAvatar(
@@ -97,45 +82,43 @@ class HomeScreen extends ConsumerWidget {
 
   ///search bar widget
   Widget searchBar() {
-    return TextFormField(
-      decoration: InputDecoration(
-          hintText: 'Search',
-          hintStyle: TextStyle(color: ColorStyles.grey),
-          fillColor: ColorStyles.light_grey,
-          filled: true,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: ColorStyles.light_grey),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          prefixIcon: Icon(
-            Icons.search,
-            color: ColorStyles.grey,
-          ),
-          suffixIcon: Icon(
-            Icons.speaker,
-            color: ColorStyles.grey,
-          )),
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, bottom: 20),
+      child: CustomTextFormField(
+        hintText: ConstantStrings.search,
+        prefixIcon: Icon(
+          Icons.search,
+          color: ColorStyles.grey,
+        ),
+        suffixIcon: Icon(
+          Icons.account_circle_sharp,
+          color: ColorStyles.grey,
+        ),
+      ),
     );
   }
 
   ///categories widget
   Widget categories(NewMovies movies) {
-    return Column(
-      children: [
-        categoryHeading(),
-        Container(
-          height: 80,
-          width: double.infinity,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: movies.items!.length,
-            itemBuilder: (context, index) {
-              return categoryDetails(movies);
-            },
-          ),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 28),
+      child: Column(
+        children: [
+          categoryHeading(),
+          Container(
+            height: 80,
+            width: double.infinity,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: movies.items!.length,
+              itemBuilder: (context, index) {
+                return categoryDetails(movies);
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -144,8 +127,8 @@ class HomeScreen extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomHeading('Categories'),
-        CustomSubTitle('See All'),
+        CustomHeading(ConstantStrings.categories),
+        CustomSubTitle(text: ConstantStrings.seeAll,),
       ],
     );
   }
@@ -174,7 +157,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
           Text(
-            'Comedy',
+          ConstantStrings.comedy,
             style: TextStyles.subtitle!.copyWith(color: ColorStyles.grey),
           )
         ],
@@ -210,8 +193,8 @@ class HomeScreen extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomHeading('New Movies'),
-        CustomSubTitle('See All'),
+        CustomHeading(ConstantStrings.newMovies),
+        CustomSubTitle(text: ConstantStrings.seeAll,),
       ],
     );
   }
@@ -249,15 +232,18 @@ class HomeScreen extends ConsumerWidget {
             SizedBox(
               height: 5,
             ),
-            CustomTitle(movies.items![index].title!),
-            CustomSubTitle(movies.items![index].fullTitle!),
+            CustomTitle(text: movies.items![index].title!,),
+            CustomSubTitle(text: movies.items![index].fullTitle!,),
             Row(
               children: [
-                Icon(Icons.star,color:ColorStyles.yellow,),
+                Icon(
+                  Icons.star,
+                  color: ColorStyles.yellow,
+                ),
                 SizedBox(
-                  width: 5,),
-                CustomSubTitle(movies.items![index].imDbRating!),
-
+                  width: 5,
+                ),
+                CustomSubTitle(text: movies.items![index].imDbRating!,),
               ],
             )
           ],
