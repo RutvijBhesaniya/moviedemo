@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
-import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/common_widgets/custom_image.dart';
+import 'package:moviedemo/utils/common_widgets/custom_text_formfiled.dart';
+import 'package:moviedemo/utils/common_widgets/custom_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/screens/detail_screen.dart';
@@ -60,12 +62,14 @@ class HomeScreen extends ConsumerWidget {
                   text: ConstantStrings.hello,
                   style: TextStyles.largeHeadline!.copyWith(
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'WorksSans',
                       color: Theme.of(context).accentColor),
                 ),
                 Text(
                   '  $name',
                   style: TextStyles.largeHeadline!.copyWith(
                     color: ColorStyles.grey,
+                    fontFamily: 'WorksSans',
                   ),
                 ),
               ],
@@ -73,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
             CustomTitle(
               text: ConstantStrings.letsWatchToday,
               style:
-                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
             ),
           ],
         ),
@@ -139,11 +143,12 @@ class HomeScreen extends ConsumerWidget {
           text: ConstantStrings.categories,
           style: TextStyles.largeHeadline!.copyWith(
               fontWeight: FontWeight.bold,
+              fontFamily: 'WorksSans',
               color: Theme.of(context).accentColor),
         ),
         CustomTitle(
           text: ConstantStrings.seeAll,
-          style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+          style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
         ),
       ],
     );
@@ -173,7 +178,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           Text(
             ConstantStrings.comedy,
-            style: TextStyles.subtitle!.copyWith(color: ColorStyles.grey),
+            style: TextStyles.subtitle!.copyWith(color: ColorStyles.grey,fontFamily: 'WorksSans',),
           )
         ],
       ),
@@ -212,11 +217,12 @@ class HomeScreen extends ConsumerWidget {
           text: ConstantStrings.newMovies,
           style: TextStyles.largeHeadline!.copyWith(
               fontWeight: FontWeight.bold,
+              fontFamily: 'WorksSans',
               color: Theme.of(context).accentColor),
         ),
         CustomTitle(
           text: ConstantStrings.seeAll,
-          style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+          style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
         ),
       ],
     );
@@ -254,13 +260,14 @@ class HomeScreen extends ConsumerWidget {
               text: movies.items![index].title!,
               style: TextStyles.smallHeadline!.copyWith(
                 fontWeight: FontWeight.bold,
+                fontFamily: 'WorksSans',
                 color: Theme.of(context).accentColor,
               ),
             ),
             CustomTitle(
               text: movies.items![index].fullTitle!,
               style:
-                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
             ),
             Row(
               children: [
@@ -274,7 +281,7 @@ class HomeScreen extends ConsumerWidget {
                 CustomTitle(
                   text: movies.items![index].imDbRating!,
                   style: TextStyles.labelName!
-                      .copyWith(color: ColorStyles.dark_grey),
+                      .copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
                 ),
               ],
             )

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
-import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/common_widgets/custom_image.dart';
+import 'package:moviedemo/utils/common_widgets/custom_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/widgets/recommended.dart';
@@ -147,6 +148,8 @@ class DetailScreen extends ConsumerWidget {
                 text: movies!.items![index].fullTitle!,
                 style: TextStyles.smallHeadline!.copyWith(
                   fontWeight: FontWeight.bold,
+                    fontFamily: 'WorksSans',
+
                   color: Theme.of(context).accentColor,
                 ),
               ),
@@ -159,16 +162,20 @@ class DetailScreen extends ConsumerWidget {
             children: [
               CustomTitle(
                 text: movies!.items![index].title!,
-                style: TextStyles.labelName!
-                    .copyWith(color: ColorStyles.dark_grey),
+                style: TextStyles.labelName!.copyWith(
+                  color: ColorStyles.dark_grey,
+                  fontFamily: 'WorksSans',
+                ),
               ),
               SizedBox(
                 width: 20,
               ),
               CustomTitle(
                 text: ConstantStrings.time,
-                style: TextStyles.labelName!
-                    .copyWith(color: ColorStyles.dark_grey),
+                style: TextStyles.labelName!.copyWith(
+                  color: ColorStyles.dark_grey,
+                  fontFamily: 'WorksSans',
+                ),
               ),
             ],
           ),
@@ -185,7 +192,7 @@ class DetailScreen extends ConsumerWidget {
             CustomTitle(
               text: movies!.items![index].imDbRating!,
               style:
-                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
             ),
           ],
         ),
@@ -206,6 +213,7 @@ class DetailScreen extends ConsumerWidget {
             text: ConstantStrings.overview,
             style: TextStyles.largeHeadline!.copyWith(
                 fontWeight: FontWeight.bold,
+                fontFamily: 'WorksSans',
                 color: Theme.of(context).accentColor),
           ),
           SizedBox(
@@ -213,7 +221,7 @@ class DetailScreen extends ConsumerWidget {
           ),
           CustomTitle(
             text: ConstantStrings.wikipedia,
-            style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
+            style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
             maxLine: 4,
           )
         ],
@@ -231,6 +239,7 @@ class DetailScreen extends ConsumerWidget {
           text: ConstantStrings.recommended,
           style: TextStyles.largeHeadline!.copyWith(
               fontWeight: FontWeight.bold,
+              fontFamily: 'WorksSans',
               color: Theme.of(context).accentColor),
         ),
         Container(

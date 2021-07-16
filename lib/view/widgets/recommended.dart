@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
-import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/common_widgets/custom_image.dart';
+import 'package:moviedemo/utils/common_widgets/custom_title.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view_model/movie_view_model.dart';
 

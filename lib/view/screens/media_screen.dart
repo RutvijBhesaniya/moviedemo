@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moviedemo/utils/common_widgets.dart';
+import 'package:moviedemo/utils/common_widgets/custom_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 
@@ -16,7 +16,7 @@ class _MediaScreenState extends State<MediaScreen> {
     return Scaffold(
       body: Center(
         child: CustomTitle(text:ConstantStrings.mediaScreen,style: TextStyles.smallHeadline!.copyWith(
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,fontFamily: 'WorksSans',
           color: Theme.of(context).accentColor,
         ),)
       ),
