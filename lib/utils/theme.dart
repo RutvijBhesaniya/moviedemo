@@ -5,8 +5,6 @@ class MyTheme {
   static ThemeData lightTheme(BuildContext context) => ThemeData(
         canvasColor: ColorStyles.white,
         accentColor: ColorStyles.black,
-
-
       );
 
   static ThemeData darkTheme(BuildContext context) => ThemeData(
