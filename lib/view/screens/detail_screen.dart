@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
-import 'package:moviedemo/utils/common_widgets/custom_image.dart';
-import 'package:moviedemo/utils/common_widgets/custom_title.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_image.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/widgets/recommended.dart';
-import 'package:moviedemo/view_model/movie_view_model.dart';
+import 'package:moviedemo/view_model/recommendedmovies_view_model.dart';
 
-//ignore: must_be_immutable
 class DetailScreen extends ConsumerWidget {
-  NewMovies? movies;
-  int index;
+  final NewMovies? movies;
+  final int index;
 
   DetailScreen(this.movies, this.index);
 
@@ -20,8 +19,6 @@ class DetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     AsyncValue<RecommendedMovies> recommendedMovies =
         watch(recommendedStateFuture);
-
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
@@ -38,34 +35,19 @@ class DetailScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
+                  clipBehavior: Clip.none,
                   children: [
                     ///top screen widget
-                    _topScreen(context),
-                    Positioned(
-                      top: 300,
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40),
-                              ),
-                              color: Theme.of(context).canvasColor,
-                            ),
-                            height: MediaQuery.of(context).size.height,
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                        ],
-                      ),
-                    ),
-                    //between screen stack widget
-                    _betweenScreen(screenHeight, context),
+                    topScreen(context),
+                    ///bottom screen widget
+                    bottomScreen(context),
+                    ///between screen stack widget
+                    betweenScreen(context),
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20, 10, 15, 0),
-                  child: bottomScreen(recommendedMovies, context),
+                  margin: EdgeInsets.fromLTRB(20, 0, 2, 0),
+                  child: bottomScreenDetails(recommendedMovies, context),
                 ),
               ],
             ),
@@ -76,102 +58,140 @@ class DetailScreen extends ConsumerWidget {
   }
 
   ///between screen stack widget
-  Widget _betweenScreen(double screenHeight, BuildContext context) {
+  Widget betweenScreen(BuildContext context) {
     return Positioned(
-      top: screenHeight * (3 / 9) - 230 / 3,
-      width: 150,
-      left: 50,
-      child: Container(
-          height: MediaQuery.of(context).size.height / 2,
-          child: CustomImage(
-            image: movies!.items![index].image!,
-            borderRadius: BorderRadius.circular(10),
-          )),
-    );
+                    bottom: -18,
+                    left: 40,
+                    child: Container(
+                      width: 180,
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: MovieDemoImage(
+                        image: movies!.items![index].image!,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  );
+  }
+
+  ///bottom screen widget
+  Widget bottomScreen(BuildContext context) {
+    return Positioned(
+                    top: MediaQuery.of(context).size.height / 2.3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          topLeft: Radius.circular(40),
+                        ),
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                    ),
+                  );
   }
 
   ///top screen widget
-  Widget _topScreen(BuildContext context) {
+  Widget topScreen(BuildContext context) {
     return Container(
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20,
-            horizontal: 25,
-          ),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 30,
+                          horizontal: 35,
+                        ),
 
-          //This is for appBar Icons
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //This is for appBar Icons
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: ColorStyles.white,
+                              ),
+                            ),
+                            Icon(
+                              Icons.favorite_outline_rounded,
+                              color: ColorStyles.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height / 2,
+                    decoration: new BoxDecoration(
+                      image: new DecorationImage(
+                        image: new NetworkImage(
+                          movies!.items![index].image!,
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  );
+  }
+
+  //bottom screen details widget
+  Widget bottomScreenDetails(
+      RecommendedMovies recommendedMovies, BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 20, right: 5, left: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: ColorStyles.white,
+              Flexible(
+                child: MovieDemoTitle(
+                  text: movies!.items![index].fullTitle!,
+                  style: TextStyles.largeHeadline!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'WorksSans',
+                    color: Theme.of(context).accentColor,
+                  ),
                 ),
-              ),
-              Icon(
-                Icons.favorite_outline_rounded,
-                color: ColorStyles.white,
               ),
             ],
           ),
-        ),
-      ),
-      decoration: new BoxDecoration(
-        image: new DecorationImage(
-          image: new NetworkImage(
-            movies!.items![index].image!,
-          ),
-          fit: BoxFit.fill,
-        ),
-      ),
-      height: 330,
-      width: MediaQuery.of(context).size.width,
-    );
-  }
-
-  //bottom screen widget
-  Widget bottomScreen(
-      RecommendedMovies recommendedMovies, BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Flexible(
-              child: CustomTitle(
-                text: movies!.items![index].fullTitle!,
-                style: TextStyles.smallHeadline!.copyWith(
-                  fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Row(
+              children: [
+                MovieDemoTitle(
+                  text: movies!.items![index].title!,
+                  style: TextStyles.labelName!.copyWith(
+                    color: ColorStyles.dark_grey,
                     fontFamily: 'WorksSans',
-
-                  color: Theme.of(context).accentColor,
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: 20,
+                ),
+                MovieDemoTitle(
+                  text: ConstantStrings.time,
+                  style: TextStyles.labelName!.copyWith(
+                    color: ColorStyles.dark_grey,
+                    fontFamily: 'WorksSans',
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: Row(
+          ),
+          Row(
             children: [
-              CustomTitle(
-                text: movies!.items![index].title!,
-                style: TextStyles.labelName!.copyWith(
-                  color: ColorStyles.dark_grey,
-                  fontFamily: 'WorksSans',
-                ),
+              Icon(
+                Icons.star,
+                color: ColorStyles.yellow,
               ),
               SizedBox(
                 width: 20,
               ),
-              CustomTitle(
-                text: ConstantStrings.time,
+              MovieDemoTitle(
+                text: movies!.items![index].imDbRating!,
                 style: TextStyles.labelName!.copyWith(
                   color: ColorStyles.dark_grey,
                   fontFamily: 'WorksSans',
@@ -179,50 +199,41 @@ class DetailScreen extends ConsumerWidget {
               ),
             ],
           ),
-        ),
-        Row(
-          children: [
-            Icon(
-              Icons.star,
-              color: ColorStyles.yellow,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            CustomTitle(
-              text: movies!.items![index].imDbRating!,
-              style:
-                  TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
-            ),
-          ],
-        ),
-        overviewDetails(context),
-        recommended(recommendedMovies, context)
-      ],
+
+          ///overview details widget
+          overviewDetails(context),
+
+          ///recommended widget
+          recommended(recommendedMovies, context)
+        ],
+      ),
     );
   }
 
-  //bottom screen detail widget
+  //overview detail widget
   Widget overviewDetails(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitle(
+          MovieDemoTitle(
             text: ConstantStrings.overview,
             style: TextStyles.largeHeadline!.copyWith(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'WorksSans',
                 color: Theme.of(context).accentColor),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          CustomTitle(
-            text: ConstantStrings.wikipedia,
-            style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
-            maxLine: 4,
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: MovieDemoTitle(
+              text: ConstantStrings.wikipedia,
+              style: TextStyles.labelName!.copyWith(
+                color: ColorStyles.dark_grey,
+                fontFamily: 'WorksSans',
+              ),
+              maxLine: 4,
+            ),
           )
         ],
       ),
@@ -235,7 +246,7 @@ class DetailScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomTitle(
+        MovieDemoTitle(
           text: ConstantStrings.recommended,
           style: TextStyles.largeHeadline!.copyWith(
               fontWeight: FontWeight.bold,

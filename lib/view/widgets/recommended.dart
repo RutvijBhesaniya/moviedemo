@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/recommended_movies.dart';
-import 'package:moviedemo/utils/common_widgets/custom_image.dart';
-import 'package:moviedemo/utils/common_widgets/custom_title.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_image.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_title.dart';
 import 'package:moviedemo/utils/style.dart';
-import 'package:moviedemo/view_model/movie_view_model.dart';
+import 'package:moviedemo/view_model/recommendedmovies_view_model.dart';
 
 class Recommended extends ConsumerWidget {
   @override
@@ -56,23 +56,23 @@ class Recommended extends ConsumerWidget {
             margin: EdgeInsets.only(bottom: 5),
             height: 210,
             width: 160,
-            child: CustomImage(
+            child: MovieDemoImage(
               image: recommendedMovies.items![index].image!,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          CustomTitle(
+          MovieDemoTitle(
             text: recommendedMovies.items![index].fullTitle!,
             style: TextStyles.smallHeadline!.copyWith(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).accentColor,
             ),
           ),
-          CustomTitle(
+          MovieDemoTitle(
             text: recommendedMovies.items![index].title!,
             style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
           ),
-          CustomTitle(
+          MovieDemoTitle(
             text: recommendedMovies.items![index].directors!,
             style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey),
           ),

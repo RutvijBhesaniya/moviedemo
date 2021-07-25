@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moviedemo/utils/common_widgets/custom_text_formfiled.dart';
-import 'package:moviedemo/utils/common_widgets/custom_title.dart';
+import 'package:moviedemo/generated/l10n.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_textformfield.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/widgets/bottom_navigation_bar.dart';
@@ -34,8 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(
                   padding: const EdgeInsets.only(top: 15, bottom: 20),
-                  child: CustomTitle(
-                    text: ConstantStrings.welCome,
+                  child: MovieDemoTitle(
+                    // text: ConstantStrings.welCome,
+                    text: S.of(context).welCome,
                     style: TextStyles.smallHeadline!.copyWith(
                       fontWeight: FontWeight.bold,
                       fontFamily: 'WorksSans',
@@ -47,14 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Column(
                   children: [
-                    CustomTextFormField(
-                      hintText: 'Username',
+                    MovieDemoTextFormField(
+                      hintText: S.of(context).username,
                       validation: validateUsername,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: CustomTextFormField(
-                        hintText: 'Password',
+                      child: MovieDemoTextFormField(
+                        hintText: S.of(context).password,
                         obscureText: true,
                         validation: validatePassword,
                       ),
@@ -77,10 +79,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     }
                   },
-                  child: CustomTitle(
+                  child: MovieDemoTitle(
                     text: ConstantStrings.login,
                     style: TextStyles.smallHeadline!.copyWith(
-                      fontWeight: FontWeight.bold,fontFamily: 'WorksSans',
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'WorksSans',
                       color: Theme.of(context).accentColor,
                     ),
                   ),

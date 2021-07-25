@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moviedemo/utils/common_widgets/custom_title.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 
@@ -15,7 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: CustomTitle(
+          child: MovieDemoTitle(
         text: ConstantStrings.profileScreen,
         style: TextStyles.smallHeadline!.copyWith(
           fontWeight: FontWeight.bold,fontFamily: 'WorksSans',

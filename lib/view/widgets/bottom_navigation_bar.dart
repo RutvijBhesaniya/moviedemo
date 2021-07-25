@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moviedemo/utils/style.dart';
-import 'package:moviedemo/view_model/movie_view_model.dart';
+import 'package:moviedemo/view_model/bottomnavigationbar_view_model.dart';
 import 'package:provider/provider.dart';
 
-//ignore: must_be_immutable
 class BottomNavigationBars extends StatefulWidget {
   BottomNavigationBars({Key? key, this.name}) : super(key: key);
-  String? name;
+  final String? name;
 
   @override
   _BottomNavigationBarsState createState() =>

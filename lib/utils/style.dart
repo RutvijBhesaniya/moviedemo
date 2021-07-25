@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 ///font size and font family
 class TextStyles {
-  static TextStyle? largeHeadline = TextStyle(fontSize: 25,fontFamily: '');
+  static TextStyle? largeHeadline = TextStyle(fontSize: 25, fontFamily: '');
   static TextStyle? smallHeadline = TextStyle(fontSize: 20);
   static TextStyle? labelName = TextStyle(fontSize: 15);
   static TextStyle? subtitle = TextStyle(fontSize: 9);
@@ -11,7 +10,6 @@ class TextStyles {
 
 ///colors
 class ColorStyles {
-  // ignore: non_constant_identifier_names
   static const light_grey = Color(0xFFE0E0E0);
   static const dark_grey = Color(0xFF616161);
   static const grey = Colors.grey;
@@ -21,7 +19,3 @@ class ColorStyles {
   static const yellow = Colors.yellow;
   static const deep_purple = Color(0xFF311B92);
 }
-
-
-
-

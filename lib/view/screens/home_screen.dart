@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moviedemo/model/new_movies.dart';
-import 'package:moviedemo/utils/common_widgets/custom_image.dart';
-import 'package:moviedemo/utils/common_widgets/custom_text_formfiled.dart';
-import 'package:moviedemo/utils/common_widgets/custom_title.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_image.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_textformfield.dart';
+import 'package:moviedemo/utils/common_widgets/moviedemo_title.dart';
 import 'package:moviedemo/utils/constant_strings.dart';
 import 'package:moviedemo/utils/style.dart';
 import 'package:moviedemo/view/screens/detail_screen.dart';
-import 'package:moviedemo/view_model/movie_view_model.dart';
+import 'package:moviedemo/view_model/newmovies_view_model.dart';
 
-//ignore: must_be_immutable
 class HomeScreen extends ConsumerWidget {
   HomeScreen({this.name});
 
-  String? name;
+  final String? name;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -58,7 +57,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
             Row(
               children: [
-                CustomTitle(
+                MovieDemoTitle(
                   text: ConstantStrings.hello,
                   style: TextStyles.largeHeadline!.copyWith(
                       fontWeight: FontWeight.bold,
@@ -74,7 +73,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            CustomTitle(
+            MovieDemoTitle(
               text: ConstantStrings.letsWatchToday,
               style:
                   TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
@@ -96,7 +95,7 @@ class HomeScreen extends ConsumerWidget {
   Widget searchBar() {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 20),
-      child: CustomTextFormField(
+      child: MovieDemoTextFormField(
         hintText: ConstantStrings.search,
         prefixIcon: Icon(
           Icons.search,
@@ -139,14 +138,14 @@ class HomeScreen extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomTitle(
+        MovieDemoTitle(
           text: ConstantStrings.categories,
           style: TextStyles.largeHeadline!.copyWith(
               fontWeight: FontWeight.bold,
               fontFamily: 'WorksSans',
               color: Theme.of(context).accentColor),
         ),
-        CustomTitle(
+        MovieDemoTitle(
           text: ConstantStrings.seeAll,
           style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
         ),
@@ -213,14 +212,14 @@ class HomeScreen extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomTitle(
+        MovieDemoTitle(
           text: ConstantStrings.newMovies,
           style: TextStyles.largeHeadline!.copyWith(
               fontWeight: FontWeight.bold,
               fontFamily: 'WorksSans',
               color: Theme.of(context).accentColor),
         ),
-        CustomTitle(
+        MovieDemoTitle(
           text: ConstantStrings.seeAll,
           style: TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
         ),
@@ -246,25 +245,26 @@ class HomeScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              child: CustomImage(
+              child: MovieDemoImage(
                 image: movies.items![index].image!,
                 borderRadius: BorderRadius.circular(10),
               ),
               height: 210,
               width: 160,
             ),
-            SizedBox(
-              height: 5,
-            ),
-            CustomTitle(
-              text: movies.items![index].title!,
-              style: TextStyles.smallHeadline!.copyWith(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'WorksSans',
-                color: Theme.of(context).accentColor,
+
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: MovieDemoTitle(
+                text: movies.items![index].title!,
+                style: TextStyles.smallHeadline!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'WorksSans',
+                  color: Theme.of(context).accentColor,
+                ),
               ),
             ),
-            CustomTitle(
+            MovieDemoTitle(
               text: movies.items![index].fullTitle!,
               style:
                   TextStyles.labelName!.copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
@@ -278,7 +278,7 @@ class HomeScreen extends ConsumerWidget {
                 SizedBox(
                   width: 5,
                 ),
-                CustomTitle(
+                MovieDemoTitle(
                   text: movies.items![index].imDbRating!,
                   style: TextStyles.labelName!
                       .copyWith(color: ColorStyles.dark_grey,fontFamily: 'WorksSans',),
